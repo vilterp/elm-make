@@ -107,10 +107,11 @@ helpInfo =
     examples =
         linesToDoc
         [ "Examples:"
-        , "  elm-make Main.elm                     # compile to HTML in index.html"
-        , "  elm-make Main.elm --output main.html  # compile to HTML in main.html"
-        , "  elm-make Main.elm --output elm.js     # compile to JS in elm.js"
-        , "  elm-make Main.elm --warn              # compile and report warnings"
+        , "  elm-make Main.elm                        # compile to HTML in index.html"
+        , "  elm-make Main.elm --output main.html     # compile to HTML in main.html"
+        , "  elm-make Main.elm --output elm.js        # compile to JS in elm.js"
+        , "  elm-make Main.elm --output elm.ast.json  # compile to JSON representing module ASTs in elm.ast.json"
+        , "  elm-make Main.elm --warn                 # compile and report warnings"
         , ""
         , "Full guide to using elm-make at <https://github.com/elm-lang/elm-make>"
         ]
@@ -152,6 +153,9 @@ output =
 
         else if ext == ".js" then
           Just (BM.JS path)
+
+        else if ext == ".json" then
+          Just (BM.JsonAst path)
 
         else if path == "/dev/null" then
           Just BM.DevNull

@@ -80,6 +80,12 @@ generate config dependencies natives rootModules =
                       Text.hPutStrLn handle =<< File.readTextUtf8 jsFile
                   Text.hPutStrLn handle (footer rootModules)
 
+        BM.JsonAst outputFile ->
+          liftIO $
+          File.withFileUtf8 outputFile WriteMode $ \handle ->
+              do  forM_ objectFiles $ \jsFile ->
+                      Text.hPutStrLn handle =<< File.readTextUtf8 jsFile
+
         BM.DevNull ->
           return ()
 

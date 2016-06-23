@@ -36,6 +36,7 @@ data Config = Config
 data Output
     = Html FilePath
     | JS FilePath
+    | JsonAst FilePath
     | DevNull
 
 
@@ -44,6 +45,7 @@ outputFilePath config =
   case _output config of
     Html file -> file
     JS file -> file
+    JsonAst file -> file
     DevNull -> "/dev/null"
 
 

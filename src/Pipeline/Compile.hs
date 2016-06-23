@@ -6,6 +6,10 @@ import qualified Data.List as List
 import qualified Data.Map as Map
 import qualified Data.Maybe as Maybe
 import qualified Data.Set as Set
+import qualified Data.Aeson as Json
+import Data.Aeson.Encode
+import Data.Text.Lazy.Builder (toLazyText)
+import qualified Data.Text.Lazy as Text
 import qualified Data.Text.Lazy.IO as LazyTextIO
 import qualified Elm.Compiler as Compiler
 import qualified Elm.Compiler.Module as Module
@@ -144,11 +148,12 @@ buildManager env state =
           Chan.readChan (resultChan env)
 
         case result of
-          Right (Compiler.Result maybeDocs interface js) ->
+          Right (Compiler.Result maybeDocs interface js jsonAst) ->
             do  -- Write build artifacts to disk
                 let cache = cachePath env
                 File.writeBinary (Path.toInterface cache modul) interface
-                LazyTextIO.writeFile (Path.toObjectFile cache modul) js
+--                LazyTextIO.writeFile (Path.toObjectFile cache modul) (toLazyText (encodeToTextBuilder jsonAst))
+                LazyTextIO.writeFile (Path.toObjectFile cache modul) (Text.pack "sup")
 
                 -- Report results to user
                 Chan.writeChan (reportChan env) (Report.Complete modul localizer path source warnings)
