@@ -83,8 +83,10 @@ generate config dependencies natives rootModules =
         BM.JsonAst outputFile ->
           liftIO $
           File.withFileUtf8 outputFile WriteMode $ \handle ->
-              do  forM_ objectFiles $ \jsFile ->
-                      Text.hPutStrLn handle =<< File.readTextUtf8 jsFile
+              do  objFileContents <- mapM File.readTextUtf8 objectFiles
+                  Text.hPutStrLn handle "["
+                  Text.hPutStrLn handle $ Text.intercalate "," objFileContents
+                  Text.hPutStrLn handle "]"
 
         BM.DevNull ->
           return ()
@@ -106,7 +108,8 @@ setupNodes cachePath dependencies natives =
             Map.toList dependencies
               |> map (\(name, deps) -> (Path.toObjectFile cachePath name, name, deps))
     in
-        nativeNodes ++ dependencyNodes
+--        nativeNodes ++ dependencyNodes
+        [] ++ dependencyNodes
 
 
 getReachableObjectFiles
