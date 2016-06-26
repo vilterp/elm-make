@@ -152,8 +152,7 @@ buildManager env state =
             do  -- Write build artifacts to disk
                 let cache = cachePath env
                 File.writeBinary (Path.toInterface cache modul) interface
---                LazyTextIO.writeFile (Path.toObjectFile cache modul) (toLazyText (encodeToTextBuilder jsonAst))
-                LazyTextIO.writeFile (Path.toObjectFile cache modul) (Text.pack "sup")
+                LazyTextIO.writeFile (Path.toObjectFile cache modul) (toLazyText (encodeToTextBuilder jsonAst))
 
                 -- Report results to user
                 Chan.writeChan (reportChan env) (Report.Complete modul localizer path source warnings)

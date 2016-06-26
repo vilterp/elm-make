@@ -19,7 +19,7 @@ import TheMasterPlan (ProjectGraph(..), ProjectData(..))
 
 main :: IO ()
 main =
-  do  putStrLn "hola"
+  do  putStrLn "hola!!"
       setLocaleEncoding utf8
       setNumCapabilities =<< getNumProcessors
 
